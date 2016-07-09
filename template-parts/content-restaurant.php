@@ -33,29 +33,34 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<?php
+					
+					//upper left corner
 					$lic = get_post_meta( $post->ID, 'lic', true);
 					echo "<h1>$lic</h1>";
 					$args = array(
-						'post_type' => 'restaurant',
+						'post_type' => 'inspection',
 						'tax_query' => array( 
 							array (
 								'taxonomy' => 'license',
 								'field'    => 'name',
 								'terms'    => $lic,
-							)
+							),	
+							'meta_key'   => 'lastinspec',
+ 							'orderby'    => 'meta_value_num',
+ 							'order'      => 'ASC',
 						),
-						'meta_key'   => 'lastinspec',
-						'orderby'    => 'meta_value_num',
-						'order'      => 'ASC',
 					);
 					$inspections = new WP_Query( $args );
 					if ( $inspections->have_posts() ) {
 						while ( $inspections->have_posts() ) {
 							$inspections->the_post();
-							echo get_post_meta( $inspections->post->ID, 'inspectioncount', true );
+							echo "<pre>";
+							$inspectionscount = get_post_meta( $inspections->post->ID );
 							print_r($inspectionscount);
+							echo "</pre>";
 						}
-					}	
+					}
+					wp_reset_postdata();
 				?>
 			</div>
 			<div class="col-sm-6">
