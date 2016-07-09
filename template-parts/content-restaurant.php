@@ -31,10 +31,34 @@
 			if ( is_single() ) {
 				?>
 		<div class="row">
-			<div class="col-sm-4">
-				Text
+			<div class="col-sm-6">
+				<?php
+					$lic = get_post_meta( $post->ID, 'lic', true);
+					echo "<h1>$lic</h1>";
+					$args = array(
+						'post_type' => 'restaurant',
+						'tax_query' => array( 
+							array (
+								'taxonomy' => 'license',
+								'field'    => 'name',
+								'terms'    => $lic,
+							)
+						),
+						'meta_key'   => 'lastinspec',
+						'orderby'    => 'meta_value_num',
+						'order'      => 'ASC',
+					);
+					$inspections = new WP_Query( $args );
+					if ( $inspections->have_posts() ) {
+						while ( $inspections->have_posts() ) {
+							$inspections->the_post();
+							echo get_post_meta( $inspections->post->ID, 'inspectioncount', true );
+							print_r($inspectionscount);
+						}
+					}	
+				?>
 			</div>
-			<div class="col-sm-8">
+			<div class="col-sm-6">
 				More text
 			</div>
 		</div>
