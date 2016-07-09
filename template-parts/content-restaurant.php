@@ -57,10 +57,19 @@
 							echo "<pre>";
 							$inspectionscount = get_post_meta( $inspections->post->ID );
 							print_r($inspectionscount);
+							$inspectionarr[$inspectionscount['date'][0]]['ttlv'] = $inspectionscount['ttlv'][0];
+							$inspectionarr[$inspectionscount['date'][0]]['highv'] = $inspectionscount['highv'][0];
+							$inspectionarr[$inspectionscount['date'][0]]['intv'] = $inspectionscount['intv'][0];
+							$inspectionarr[$inspectionscount['date'][0]]['basv'] = $inspectionscount['basv'][0];
+							$inspectionarr[$inspectionscount['date'][0]]['inspecdetails'] = unserialize( unserialize( $inspectionscount['inspectioncount'][0] ) );
+							
 							echo "</pre>";
 						}
 					}
 					wp_reset_postdata();
+					echo "<pre>";
+					print_r($inspectionarr);
+					echo "</pre>";
 				?>
 			</div>
 			<div class="col-sm-6">
